@@ -38,6 +38,23 @@ game:service'Players'.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkS
     DoubleClick = false,
     Tooltip = 'This is the main button'
 })
+
+LeftGroupBox:AddSlider('MySlider', {
+    Text = 'Speed Hack',
+    Default = 16,
+    Min = 16,
+    Max = 1000,
+    Rounding = 1,
+    Compact = false,
+
+    Callback = function(Value)
+        getgenv().WalkSpeedValue = Value --set your desired walkspeed her
+        game:service'Players'.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+        game:service'Players'.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue
+        end)
+        game:service'Players'.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue
+    end
+})
 --UI Settings
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox('UI Settings')
 --выклбчить гуи
