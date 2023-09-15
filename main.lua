@@ -54,6 +54,22 @@ LeftGroupBox:AddSlider('MySlider', {
         game:service'Players'.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue
     end
 })
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Enable Inf spin',
+    Func = function()
+game:GetService("Players").LocalPlayer.startevent:FireServer("band", "\128") 
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is the main button'
+})
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Off inf spin ',
+    Func = function()
+game:GetService("Players").LocalPlayer.startevent:FireServer("band", "Eye") 
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is the main button'
+})
 --UI Settings
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox('UI Settings')
 --выклбчить гуи
