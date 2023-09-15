@@ -70,6 +70,15 @@ game:GetService("Players").LocalPlayer.startevent:FireServer("band", "Eye")
     DoubleClick = false,
     Tooltip = 'This is the main button'
 })
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Rejoin',
+    Func = function()
+local TeleportService = game:GetService("TeleportService")
+TeleportService:Teleport(game.PlaceId, LocalPlayer)
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is the main button'
+})
 --UI Settings
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox('UI Settings')
 --выклбчить гуи
