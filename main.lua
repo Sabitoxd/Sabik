@@ -28,7 +28,7 @@ pcall(function() loadstring(game:HttpGet('https://raw.githubusercontent.com/Shut
 local MyButton = LeftGroupBox:AddButton({
     Text = 'Speedhack on',
     Func = function()
-pcall(function() getgenv().WalkSpeedValue 70; --set your desired walkspeed here
+pcall(function() getgenv().WalkSpeedValue = 70; --set your desired walkspeed here
 local Player = game:service'Players'.LocalPlayer;
 Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
 Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
