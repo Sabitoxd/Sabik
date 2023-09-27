@@ -79,6 +79,59 @@ TeleportService:Teleport(game.PlaceId, LocalPlayer)
     DoubleClick = false,
     Tooltip = 'This is the main button'
 })
+--список игроков
+LeftGroupBox:AddDropdown('Usernames', {
+    SpecialType = 'Player',
+    Text = 'List of players',
+    Tooltip = 'Select target',
+    Callback = function(Username)
+        getgenv().target = Username
+    end
+})
+
+--переключатель
+LeftGroupBox:AddToggle('Toggle', {
+    Text = 'Turn AimBot on/off',
+    Default = false,
+    Tooltip = 'on/off',
+    Callback = function(Value)
+        getgenv().toggle = Value
+    end
+})
+
+--бинд аимбота
+LeftGroupBox:AddLabel('AimBot key bind'):AddKeyPicker('KeyPicker', {
+    Default = '',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'AimBot key bind',
+    NoUI = false,
+    Callback = function(Value)
+        Toggles.Toggle:SetValue(Value)
+    end
+})
+--если выбранный игрок ливает
+game:GetService("Players").PlayerRemoving:Connect(function(player)
+    if player.Name == Options.Usernames.Value then
+        Options.Usernames:SetValue()
+    end
+end)
+
+--аим бот
+local eventbypass
+eventbypass = hookmetamethod(game, "__namecall", function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+    if getgenv().toggle == true and getgenv().target ~= nil then
+        target = getgenv().target
+        if not checkcaller() and self.Name == "update" and method == "FireServer" and args[1] == "fixmouse" and args[2] ~= workspace[target].Torso.CFrame then
+            return workspace[game.Players.LocalPlayer.Name].combat.update:FireServer("fixmouse", workspace[target].Torso.CFrame)
+        end
+    else
+        target = args[2]
+    end
+    return eventbypass(self, ...)
+end)
 --UI Settings
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox('UI Settings')
 --выклбчить гуи
