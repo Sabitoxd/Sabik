@@ -14,6 +14,134 @@ local Window = Library:CreateWindow({
 local Tabs = {
     Main = Window:AddTab('Main'),
 }
+local RightGroupBox = Window.Tabs.Main:AddRightGroupbox('Fun')
+local MyButton = RightGroupBox:AddButton({
+    Text = 'Reset race(for fun, dont save)',
+    Func = function()
+        game:GetService("Players").LocalPlayer.statz.race:Destroy()
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is main button'
+})
+local MyButton = RightGroupBox:AddButton({
+    Text = 'Reset rellcoins',
+    Func = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Skrapisismyscript/Solo_Hub/main/INFRELLCOINS"))()
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is main button'
+})
+local MyButton = RightGroupBox:AddButton({
+    Text = 'Fly',
+    Func = function()
+        function getRoot(char)
+            local rootPart = char:FindFirstChild('HumanoidRootPart') or char:FindFirstChild('Torso') or char:FindFirstChild('UpperTorso')
+            return rootPart
+        end
+        
+        FLYING = false
+        iyflyspeed = 1
+        vehicleflyspeed = 10
+        function sFLY()
+            repeat wait() until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and getRoot(game.Players.LocalPlayer.Character) and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+            repeat wait() until game.Players.LocalPlayer:GetMouse()
+            if flyKeyDown or flyKeyUp then flyKeyDown:Disconnect() flyKeyUp:Disconnect() end
+            local T = getRoot(game.Players.LocalPlayer.Character)
+        local CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+        local lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+        local SPEED = 0
+        
+        local function FLY()
+            FLYING = true
+            local BG = Instance.new('BodyGyro')
+            local BV = Instance.new('BodyVelocity')
+            BG.P = 9e4
+            BG.Parent = T
+            BV.Parent = T
+            BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+            BG.cframe = T.CFrame
+            BV.velocity = Vector3.new(0, 0, 0)
+            BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+            task.spawn(function()
+                repeat wait()
+                    if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0 then
+                        SPEED = 50
+                    elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0) and SPEED ~= 0 then
+                        SPEED = 0
+                    end
+                    if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 or (CONTROL.Q + CONTROL.E) ~= 0 then
+                        BV.velocity = ((workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).p) - workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+                        lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+                    elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and (CONTROL.Q + CONTROL.E) == 0 and SPEED ~= 0 then
+                        BV.velocity = ((workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).p) - workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+                    else
+                        BV.velocity = Vector3.new(0, 0, 0)
+                    end
+                    BG.cframe = workspace.CurrentCamera.CoordinateFrame
+                until not FLYING
+                CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+                lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+                SPEED = 0
+                BG:Destroy()
+                BV:Destroy()
+                if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid') then
+                    game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
+                end
+            end)
+        end
+        flyKeyDown = game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(KEY)
+            if KEY:lower() == 'w' then
+                CONTROL.F = (true and vehicleflyspeed or iyflyspeed)
+            elseif KEY:lower() == 's' then
+                CONTROL.B = - (true and vehicleflyspeed or iyflyspeed)
+            elseif KEY:lower() == 'a' then
+                CONTROL.L = - (true and vehicleflyspeed or iyflyspeed)
+            elseif KEY:lower() == 'd' then 
+                CONTROL.R = (true and vehicleflyspeed or iyflyspeed)
+            end
+            pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Track end)
+        end)
+        flyKeyUp = game.Players.LocalPlayer:GetMouse().KeyUp:Connect(function(KEY)
+            if KEY:lower() == 'w' then
+                CONTROL.F = 0
+            elseif KEY:lower() == 's' then
+                CONTROL.B = 0
+            elseif KEY:lower() == 'a' then
+                CONTROL.L = 0
+            elseif KEY:lower() == 'd' then
+                CONTROL.R = 0
+            end
+        end)
+        FLY()
+        end
+        
+        function NOFLY()
+        FLYING = false
+        if flyKeyDown or flyKeyUp then flyKeyDown:Disconnect() flyKeyUp:Disconnect() end
+        if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid') then
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
+        end
+        pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Custom end)
+        end
+        
+        sFLY(true)
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is main button'
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --бокс группа
 local LeftGroupBox = Window.Tabs.Main:AddLeftGroupbox('Esp')
@@ -25,24 +153,12 @@ pcall(function() loadstring(game:HttpGet('https://raw.githubusercontent.com/Shut
     DoubleClick = false,
     Tooltip = 'This is the main button'
 })
-local MyButton = LeftGroupBox:AddButton({
-    Text = 'Speedhack on',
-    Func = function()
-getgenv().WalkSpeedValue = 80 --set your desired walkspeed her
-game:service'Players'.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
-game:service'Players'.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue
-end)
-game:service'Players'.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue
-    end,
-    DoubleClick = false,
-    Tooltip = 'This is the main button'
-})
 
 LeftGroupBox:AddSlider('MySlider', {
     Text = 'Speed Hack',
     Default = 16,
     Min = 16,
-    Max = 1000,
+    Max = 10000,
     Rounding = 1,
     Compact = false,
 
@@ -139,3 +255,4 @@ LeftGroupBox2:AddButton('Unload', function() Library:Unload() end)
 --бинд менюшки
 LeftGroupBox2:AddLabel('Menu keybind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
 Library.ToggleKeybind = Options.MenuKeybind
+
