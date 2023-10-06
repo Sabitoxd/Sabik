@@ -320,6 +320,36 @@ eventbypass = hookmetamethod(game, "__namecall", function(self, ...)
     end
     return eventbypass(self, ...)
 end)
+local MyButton = LeftGroupBox:AddButton({
+    Text = 'Click to teleport (left control+click) ',
+    Func = function()
+local UIS = game:GetService("UserInputService")
+
+local Player = game.Players.LocalPlayer
+local Mouse = Player:GetMouse()
+
+
+function GetCharacter()
+   return game.Players.LocalPlayer.Character
+end
+
+function Teleport(pos)
+   local Char = GetCharacter()
+   if Char then
+       Char:MoveTo(pos)
+   end
+end
+
+
+UIS.InputBegan:Connect(function(input)
+   if input.UserInputType == Enum.UserInputType.MouseButton1 and UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
+       Teleport(Mouse.Hit.p)
+   end
+end)
+    end,
+    DoubleClick = false,
+    Tooltip = 'This is the main button'
+})
 --UI Settings
 local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox('UI Settings')
 --выклбчить гуи
