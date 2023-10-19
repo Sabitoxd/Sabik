@@ -225,6 +225,29 @@ pcall(function() loadstring(game:HttpGet('https://raw.githubusercontent.com/Shut
     DoubleClick = false,
     Tooltip = 'This is the main button'
 })
+LeftGroupBox:AddDropdown('Usernames', {
+    SpecialType = 'Player',
+    Text = 'List of players',
+    Tooltip = 'Select target',
+    Callback = function(Username)
+        getgenv().target = Username
+    end
+})
+-- Groupbox:AddToggle
+-- Arguments: Index, Options
+LeftGroupBox:AddToggle('MyToggle', {
+    Text = 'This is a toggle',
+    Default = true, -- Default value (true / false)
+    Tooltip = 'This is a tooltip', -- Information shown when you hover over the toggle
+
+    Callback = function(Value)
+	
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace[getgenv().target].HumanoidRootPart.CFrame
+
+	
+    end
+})
 
 LeftGroupBox:AddSlider('MySlider', {
     Text = 'Speed Hack',
