@@ -248,6 +248,16 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace[getgenv()
 	
     end
 })
+LeftGroupBox:AddLabel('AimBot key bind'):AddKeyPicker('KeyPicker', {
+    Default = '',
+    SyncToggleState = false,
+    Mode = 'Toggle',
+    Text = 'AimBot key bind',
+    NoUI = false,
+    Callback = function(Value)
+        Toggles.Toggle:SetValue(Value)
+    end
+})
 
 LeftGroupBox:AddSlider('MySlider', {
     Text = 'Speed Hack',
